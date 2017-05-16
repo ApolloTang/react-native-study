@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 
 import {StackNavigator, TabNavigator } from 'react-navigation';
+import ComponentWithTabs from './screens/eg-tab-nav';
+
 
 class HomeScreen extends React.Component {
   static navigationOptions = { title: 'HomeScreen' };
@@ -24,7 +26,7 @@ class HomeScreen extends React.Component {
   }
 }
 
-class ComponentTwo extends React.Component {
+class ComponentThree extends React.Component {
   static navigationOptions = props => ({
     title: `Component 2 ${props.navigation.state.params.someProp}`
   })
@@ -56,42 +58,10 @@ class ComponentFour extends React.Component {
   ); }
 };
 
-class Tab1 extends React.Component {
-  render() {
-    return (
-      <View>
-        <Text>(Tab 1)</Text>
-        <Text>{`this.props: \n ${JSON.stringify(this.props, null, 2)}`}</Text>
-        <Button
-          onPress={()=>this.props.navigation.navigate('StackFour', {someProp: '4'}) }
-          title="Navigate to Stack Four" />
-      </View>
-    );
-  }
-}
-
-class Tab2 extends React.Component {
-  render() {
-    return (
-      <View>
-        <Text>(Tab 2)</Text>
-        <Text>{`this.props: \n ${JSON.stringify(this.props, null, 2)}`}</Text>
-      </View>
-    );
-  }
-}
-
-const ComponentThree = TabNavigator({
-  'Tab1': { screen: Tab1 },
-  'Tab2_title': { screen: Tab2 },
-});
-ComponentThree.navigationOptions = (props) => (
-  { title: `TitleXX ${JSON.stringify(props.navigation.state.params)}` }
-)
 
 const App = StackNavigator({
   Home: { screen: HomeScreen },
-  StackTwo: { screen: ComponentTwo },
+  StackTwo: { screen: ComponentWithTabs },
   StackThree: { screen: ComponentThree },
   StackFour: { screen: ComponentFour },
 });
