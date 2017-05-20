@@ -20,7 +20,7 @@ class Tab1 extends React.Component {
         <Text>(Tab 1)</Text>
         <Text>{`this.props: \n ${JSON.stringify(this.props, null, 2)}`}</Text>
         <Button
-          onPress={()=>this.props.navigation.navigate('StackFour', {someProp: '4'}) }
+          onPress={()=>this.props.navigation.navigate('StackFour', {someParam: '4'}) }
           title="Navigate to Stack Four" />
       </View>
     );

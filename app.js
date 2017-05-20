@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
+
 
 import {
   AppRegistry,
@@ -11,24 +13,6 @@ import {
 import {StackNavigator, TabNavigator } from 'react-navigation';
 import ComponentWithTabs from './screens/eg-tab-nav';
 
-
-class HomeScreen extends React.Component {
-  static navigationOptions = { title: 'HomeScreen' };
-  render() {
-    return (
-      <View>
-        <Text>This is content of HomeScreen</Text>
-        <Text>{`this.props: \n ${JSON.stringify(this.props, null, 2)}`}</Text>
-        <Text>{`this.props.keys: \n ${Object.keys(this.props)}`}</Text>
-        <Text>{`screenProps: \n ${this.props.screenProps}`}</Text>
-        <Text>{`navigation.keys: \n ${Object.keys(this.props.navigation)}`}</Text>
-        <Button
-          onPress={ ()=>this.props.navigation.navigate('StackTwo', {someProp: 'someProp'}) }
-          title="Navigate to Stack Two" />
-      </View>
-    );
-  }
-}
 
 class ComponentThree extends React.Component {
   static navigationOptions = props => ({
@@ -50,37 +34,79 @@ class ComponentThree extends React.Component {
 
 class ComponentFour extends React.Component {
   static navigationOptions = props => ({
-    title: `Title ${props.navigation.state.params.some_prop}`
+    title: `Title ${_.get(props, 'navigation.state.params.someParam', '*no params provided*')}`
   })
   render() { return (
     <View>
-      <Text>This is content of Component Three</Text>
+      <Text>This is content of Component Four</Text>
+      <Text>{`this.props: \n ${JSON.stringify(this.props, null, 2)}`}</Text>
+      <Text>{`this.props.keys: \n ${Object.keys(this.props)}`}</Text>
+      <Text>{`screenProps: \n ${this.props.screenProps}`}</Text>
+      <Text>{`navigation.keys: \n ${Object.keys(this.props.navigation)}`}</Text>
       <Button
-        onPress={ ()=>this.props.navigation.navigate('StackTwo', {some_prop: 'some_prop'}) }
+        onPress={ ()=>this.props.navigation.navigate('StackTwo', {someParam: 'some_prop'}) }
         title="Navigate to Stack Two" />
     </View>
   ); }
 };
 
 
+class LandingComponent extends React.Component {
+  static navigationOptions = props => ({
+    // This will be override if it, navigationOptions is set in Navigator that call this component
+    title: `Title ${_.get(props, 'navigation.state.params.someParam', '*no params provided*')}`
+  })
+  render() { return (
+    <View>
+      <Text>This is content of Landing Screen</Text>
+      <Text>{`this.props: \n ${JSON.stringify(this.props, null, 2)}`}</Text>
+      <Text>{`this.props.keys: \n ${Object.keys(this.props)}`}</Text>
+      <Text>{`screenProps: \n ${JSON.stringify(this.props.screenProps, null, 4)}`}</Text>
+      <Text>{`navigation.keys: \n ${Object.keys(this.props.navigation)}`}</Text>
+      <Button
+        onPress={ ()=>this.props.navigation.navigate('StackTwo', {someParam: 'some_prop'}) }
+        title="Navigate to Stack Two" />
+    </View>
+  ); }
+};
+
 const RootNavigator = StackNavigator({
-  Home: { screen: HomeScreen },
   StackTwo: { screen: ComponentWithTabs },
   StackThree: { screen: ComponentThree },
   StackFour: { screen: ComponentFour },
+  LandingScreen: {
+    screen: LandingComponent,
+    navigationOptions: props=>{
+      _.set(props, `navigation.state.params.someParam`, '*parame set in RootNavigator directive');
+      console.log('This is navagationOptions defined in StackNavigator it override the static navigationOptions defined in component:');
+      console.log(`${JSON.stringify(props, null, 2)}`);
+      return {
+        title: `Title ${_.get(props, 'navigation.state.params.someParam', '* no params provided *')}`,
+      }
+    },
+  }
+}, {
+  initialRouteName: 'LandingScreen',
 });
 
 class App extends Component {
-  componentDidMount() {
-    console.log('rootNav: ', this.rootNav)
+  constructor(props) {
+    super(props);
   }
+
+  componentDidMount() {
+    console.log('rootNavigationProps: ', this.rootNavigationProps)
+  }
+
+
   render() {
     console.log('App: ', this.props)
     return (
       <RootNavigator
-        ref={rootNav=>{
-          this.rootNav = rootNav
-          }} />
+        ref={rootNavigationProps=>{ this.rootNavigationProps = rootNavigationProps }}
+        screenProps={{'notes':`screenProps obj is provided in RootNavigator, and is available in current rendered component's props`}}
+        otherProps={'otherProps is NOT available current screen, but is available in rootNavigationProps'}
+        />
     )
   }
 }
