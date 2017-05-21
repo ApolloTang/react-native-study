@@ -5,40 +5,54 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  TouchableOpacity,
+  Platform,
 } from 'react-native';
 
 import {StackNavigator} from 'react-navigation';
 
+import SimpleTabs from './eg-tab-nav';
+
 const directive = {
-  SimpleStack: {
-    name: 'Stack Exaple',
-    description: 'A card stack',
-    // screen: SimpleStack
-  },
+  // SimpleStack: {
+  //   name: 'Stack Exaple',
+  //   description: 'A card stack',
+  //   screen: SimpleStack
+  // },
   SimpleTabs: {
     name: 'Tabs Example',
     description: 'Tabs follow platform conventions',
-    // screen: SimpleTabs
+    screen: SimpleTabs
   }
 };
 
-const Item = ({name, description})=>{
+const Item = ({directive, navigation})=>{
   return (
+    <TouchableOpacity
+      onPress={()=>{
+          const screen = _.get(directive, 'screen', void 0);
+          console.log('press', screen);
+          if (screen) {
+            navigation.navigate( 'SimpleTabs', {someParam: 'some_prop'})
+          }
+        }}
+      >
       <View style={styles.item}>
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={styles.title}>{directive.name}</Text>
+        <Text style={styles.description}>{directive.description}</Text>
       </View>
+    </TouchableOpacity>
   );
 }
 
-const List = ()=>{
+const List = ({navigation})=>{
   return (
     <View>
       {
         Object.keys(directive).map(
           ( key )=>{
-            return <Item key={key} {...directive[key]}/>;
+            return <Item key={key} directive={directive[key]} navigation={navigation}/>;
           }
         )
       }
@@ -51,12 +65,26 @@ class Catelog extends React.Component {
     return (
       <View>
         <ScrollView>
-          <List />
+          <List {...this.props}/>
         </ScrollView>
       </View>
     )
   }
 };
+
+
+const CatelogNav = StackNavigator(
+  {
+    Index_CatelogNav: {
+      screen: Catelog
+    },
+    ...directive,
+  },{
+    initialRouteName: 'Index_CatelogNav',
+    headerMode: 'none',
+    mode: Platform.OS === 'ios' ? 'modal' : 'card', // modal only availbale on ios, card is the default for both android and ios
+  }
+);
 
 const styles = StyleSheet.create( {
   item: {
@@ -76,7 +104,7 @@ const styles = StyleSheet.create( {
   }
 })
 
-export default Catelog;
+export default CatelogNav;
 
 
 
