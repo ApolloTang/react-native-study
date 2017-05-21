@@ -70,10 +70,13 @@ class LandingComponent extends React.Component {
   ); }
 };
 
+import Catelog from './screens/catelog';
+
 const RootNavigator = StackNavigator({
   StackTwo: { screen: ComponentWithTabs },
   StackThree: { screen: ComponentThree },
   StackFour: { screen: ComponentFour },
+  LandingScreen_Catelog: { screen: Catelog },
   LandingScreen: {
     screen: LandingComponent,
     navigationOptions: props=>{
@@ -86,7 +89,8 @@ const RootNavigator = StackNavigator({
     },
   }
 }, {
-  initialRouteName: 'LandingScreen',
+  // initialRouteName: 'LandingScreen',
+  initialRouteName: 'LandingScreen_Catelog',
 });
 
 class App extends Component {
