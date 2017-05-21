@@ -78,7 +78,7 @@ const RootNavigator = StackNavigator({
     screen: LandingComponent,
     navigationOptions: props=>{
       _.set(props, `navigation.state.params.someParam`, '*parame set in RootNavigator directive');
-      console.log('This is navagationOptions defined in StackNavigator it override the static navigationOptions defined in component:');
+      console.log('This is navagationOptions defined in StackNavigator, it override the static navigationOptions defined in component:');
       console.log(`${JSON.stringify(props, null, 2)}`);
       return {
         title: `Title ${_.get(props, 'navigation.state.params.someParam', '* no params provided *')}`,
@@ -106,6 +106,7 @@ class App extends Component {
         ref={rootNavigationProps=>{ this.rootNavigationProps = rootNavigationProps }}
         screenProps={{'notes':`screenProps obj is provided in RootNavigator, and is available in current rendered component's props`}}
         otherProps={'otherProps is NOT available current screen, but is available in rootNavigationProps'}
+        onNavigationStateChange={ (prevState, newState, action)=>{ console.log('******* onNavigationStateChange ******') } }
         />
     )
   }
