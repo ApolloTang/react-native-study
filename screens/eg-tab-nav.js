@@ -22,6 +22,7 @@ class Tab1 extends React.Component {
         <Button
           onPress={()=>this.props.navigation.navigate('StackFour', {someParam: '4'}) }
           title="Navigate to Stack Four" />
+        <Button onPress={() => this.props.navigation.goBack(null)} title="Go back" />
       </View>
     );
   }
@@ -39,6 +40,7 @@ class Tab2 extends React.Component {
       <View>
         <Text>(Tab 2)</Text>
         <Text>{`this.props: \n ${JSON.stringify(this.props, null, 2)}`}</Text>
+        <Button onPress={() => this.props.navigation.goBack(null)} title="Go back" />
       </View>
     );
   }

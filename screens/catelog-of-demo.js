@@ -13,13 +13,14 @@ import {
 import {StackNavigator} from 'react-navigation';
 
 import SimpleTabs from './eg-tab-nav';
+import Component_Users from './users';
 
 const directive = {
-  // SimpleStack: {
-  //   name: 'Stack Exaple',
-  //   description: 'A card stack',
-  //   screen: SimpleStack
-  // },
+  Users: {
+    name: 'Users',
+    description: 'Demo for a list of users',
+    screen: Component_Users
+  },
   SimpleTabs: {
     name: 'Tabs Example',
     description: 'Tabs follow platform conventions',
@@ -27,14 +28,14 @@ const directive = {
   }
 };
 
-const Item = ({directive, navigation})=>{
+const Item = ({itemKey, directive, navigation})=>{
   return (
     <TouchableOpacity
       onPress={()=>{
           const screen = _.get(directive, 'screen', void 0);
           console.log('press', screen);
           if (screen) {
-            navigation.navigate( 'SimpleTabs', {someParam: 'some_prop'})
+            navigation.navigate( itemKey, {someParam: 'some_prop'} );
           }
         }}
       >
@@ -52,7 +53,7 @@ const List = ({navigation})=>{
       {
         Object.keys(directive).map(
           ( key )=>{
-            return <Item key={key} directive={directive[key]} navigation={navigation}/>;
+            return <Item key={key} itemKey={key} directive={directive[key]} navigation={navigation}/>;
           }
         )
       }
@@ -62,10 +63,13 @@ const List = ({navigation})=>{
 
 import Banner from './banner';
 class Catelog extends React.Component {
+  static navigationOptions = {
+    header() {return <Banner />},
+  }
   render() {
     return (
       <View>
-        <Banner />
+        {/* <Banner /> */}
         <ScrollView>
           <List {...this.props}/>
         </ScrollView>
@@ -80,7 +84,7 @@ const CatelogNav = StackNavigator(
     Index_CatelogNav: {
       screen: Catelog
     },
-    ...directive,
+    // ...directive, // export this to put on root StackNavigator directive
   },{
     initialRouteName: 'Index_CatelogNav',
     headerMode: 'none',
@@ -107,6 +111,7 @@ const styles = StyleSheet.create( {
 })
 
 export default CatelogNav;
+export {directive}
 
 
 

@@ -72,7 +72,7 @@ class LandingComponent extends React.Component {
 
 import Catelog from './screens/catelog';
 import CatelogOfDemo from './screens/catelog-of-demo';
-
+import {directive as directive_catelogOfDemo } from './screens/catelog-of-demo';
 const RootNavigator = StackNavigator({
   StackTwo: { screen: ComponentWithTabs },
   StackThree: { screen: ComponentThree },
@@ -81,14 +81,15 @@ const RootNavigator = StackNavigator({
   LandingScreen: {
     screen: LandingComponent,
     navigationOptions: props=>{
-      _.set(props, `navigation.state.params.someParam`, '*parame set in RootNavigator directive');
+      _.set(props, `navigation.state.params.someParam`, '* this param is set in StackNavigotor *');
       console.log('This is navagationOptions defined in StackNavigator, it override the static navigationOptions defined in component:');
       console.log(`${JSON.stringify(props, null, 2)}`);
       return {
         title: `Title ${_.get(props, 'navigation.state.params.someParam', '* no params provided *')}`,
       }
     },
-  }
+  },
+  ...directive_catelogOfDemo
 }, {
   // initialRouteName: 'LandingScreen',
   initialRouteName: 'CatelogExample',

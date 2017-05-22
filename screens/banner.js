@@ -22,18 +22,25 @@ export default Banner;
 
 const styles = StyleSheet.create({
   banner: {
-    padding: 16,
+    paddingTop: Platform.OS === 'ios' ? 30 : 15,
+    paddingBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'hsl(0, 0%, 100%)',
-    marginTop: Platform.OS === 'ios' ? 0 : -4
+    justifyContent: 'center',
+    backgroundColor: 'hsl(0, 10%, 100%)',
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   image: {
+    // borderWidth: 1,
+    // borderColor: 'red',
     width: 25,
     height: 25,
     resizeMode: 'contain',
   },
   title: {
+    // borderWidth: 1,
+    // borderColor: 'red',
     fontSize: 20,
     marginLeft: 4
   }
