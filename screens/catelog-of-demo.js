@@ -60,10 +60,12 @@ const List = ({navigation})=>{
   );
 };
 
+import Banner from './banner';
 class Catelog extends React.Component {
   render() {
     return (
       <View>
+        <Banner />
         <ScrollView>
           <List {...this.props}/>
         </ScrollView>
