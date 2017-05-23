@@ -13,7 +13,7 @@ import {
 import {StackNavigator} from 'react-navigation';
 
 import SimpleTabs from './eg-tab-nav';
-import Component_Users from './users';
+import Component_Users from './users/';
 
 const directive = {
   Users: {
