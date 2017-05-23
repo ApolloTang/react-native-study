@@ -11,7 +11,7 @@ import {
 const Banner = () => (
   <View style={styles.banner}>
     <Image
-      source={require('navStudy/assets/icons/react-navigation.png')}
+      source={require('navStudy/app/assets/icons/react-navigation.png')}
       style={styles.image}
     />
     <Text style={styles.title}> React Navigation Demos </Text>
