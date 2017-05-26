@@ -95,6 +95,20 @@ const RootNavigator = StackNavigator({
   initialRouteName: 'CatelogExample',
 });
 
+const landingScreenAction = RootNavigator.router.getActionForPathAndParams('LandingScreen');
+const landingScreenState = RootNavigator.router.getStateForAction(landingScreenAction);
+
+console.log('yyyy: landingScreenAction: ', landingScreenAction);
+console.log('yyyy: landingScreenState: ', landingScreenState);
+
+const CatelogExampleAction = RootNavigator.router.getActionForPathAndParams('CatelogExample');
+const CatelogExampleState = RootNavigator.router.getStateForAction(CatelogExampleAction);
+console.log('yyyy: CatelogExampleAction: ', CatelogExampleAction);
+console.log('yyyy: CatelogExampleState: ', CatelogExampleState);
+
+
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -112,7 +126,13 @@ class App extends Component {
         ref={rootNavigationProps=>{ this.rootNavigationProps = rootNavigationProps }}
         screenProps={{'notes':`screenProps obj is provided in RootNavigator, and is available in current rendered component's props`}}
         otherProps={'otherProps is NOT available current screen, but is available in rootNavigationProps'}
-        onNavigationStateChange={ (prevState, newState, action)=>{ console.log('******* onNavigationStateChange ******') } }
+        onNavigationStateChange={ (prevState, newState, action)=>{
+          console.log('vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv')
+          console.log('action: ', action);
+          console.log('newState: ', newState);
+          console.log('prevState: ', prevState);
+          console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ')
+        } }
         />
     )
   }
