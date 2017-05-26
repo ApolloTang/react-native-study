@@ -1,6 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 
+import {NavigationActions} from 'react-navigation';
+
+
 import {
   StyleSheet,
   View,
@@ -25,13 +28,17 @@ const users = {
   }
 };
 
+const Action_navigateToUserById = (id)=>NavigationActions.navigate({
+  routeName: 'userDetailScreen',
+  params: {id}
+});
+
 const User = ({user, navigation})=>{
-  console.log(user)
   return (
     <TouchableOpacity
       onPress={()=>{
-          console.log('user being press')
-          navigation.navigate('TestScreen', {id:user.id} )
+          // navigation.navigate('TestScreen', {id:user.id} )
+          navigation.dispatch(Action_navigateToUserById(user.id))
         }
       }
       >
@@ -68,8 +75,7 @@ const Component_UserCatelog = (props)=>(
     </View>
 );
 
-const Test = (props)=>{
-  console.log('tttt: ', props.navigation.state.params.id)
+const Component_userDetail = (props)=>{
   const id = props.navigation.state.params.id;
   return (
     <View><Text>{id}</Text></View>
@@ -81,8 +87,8 @@ const Navigation_Users = StackNavigator(
     Route_Landing: {
       screen: Component_UserCatelog
     },
-    TestScreen: {
-      screen: Test
+    userDetailScreen: {
+      screen: Component_userDetail
     }
   },{
     initialRouteName: 'Route_Landing',
